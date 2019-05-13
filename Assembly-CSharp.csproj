@@ -62,15 +62,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CoastScript.cs" />
-    <Compile Include="Assets\GrassScript.cs" />
-    <Compile Include="Assets\MountainScript.cs" />
-    <Compile Include="Assets\PlainsScript.cs" />
     <Compile Include="Assets\Scripts\CameraScript.cs" />
     <Compile Include="Assets\Scripts\TerrainGenerator\TerrainGenerator.cs" />
     <Compile Include="Assets\Scripts\Tiles\ATile.cs" />
-    <Compile Include="Assets\SwampScript.cs" />
-    <Compile Include="Assets\WaterScript.cs" />
+    <Compile Include="Assets\Scripts\Tiles\CoastScript.cs" />
+    <Compile Include="Assets\Scripts\Tiles\GrassScript.cs" />
+    <Compile Include="Assets\Scripts\Tiles\MountainScript.cs" />
+    <Compile Include="Assets\Scripts\Tiles\PlainsScript.cs" />
+    <Compile Include="Assets\Scripts\Tiles\SwampScript.cs" />
+    <Compile Include="Assets\Scripts\Tiles\WaterScript.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Stuff/Unity Projects/Island Explorer 3D/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

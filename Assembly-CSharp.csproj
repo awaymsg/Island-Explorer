@@ -63,6 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraScript.cs" />
+    <Compile Include="Assets\Scripts\TerrainGenerator\Cube.cs" />
+    <Compile Include="Assets\Scripts\TerrainGenerator\IGenerator.cs" />
+    <Compile Include="Assets\Scripts\TerrainGenerator\MarchingCubesGenerator.cs" />
     <Compile Include="Assets\Scripts\TerrainGenerator\TerrainGenerator.cs" />
     <Compile Include="Assets\Scripts\Tiles\ATile.cs" />
     <Compile Include="Assets\Scripts\Tiles\CoastScript.cs" />
@@ -71,6 +74,7 @@
     <Compile Include="Assets\Scripts\Tiles\PlainsScript.cs" />
     <Compile Include="Assets\Scripts\Tiles\SwampScript.cs" />
     <Compile Include="Assets\Scripts\Tiles\WaterScript.cs" />
+    <Compile Include="Assets\TerrainMesh.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Stuff/Unity Projects/Island Explorer 3D/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

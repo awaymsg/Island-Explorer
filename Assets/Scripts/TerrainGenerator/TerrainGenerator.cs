@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TerrainGenerator : MonoBehaviour
+public class TerrainGenerator : MonoBehaviour, IGenerator
 {
     public GameObject grass;
     public GameObject plains;
@@ -29,6 +29,12 @@ public class TerrainGenerator : MonoBehaviour
         tileArray = new GameObject[zSize, xSize];
         //GameObject testpiece = Instantiate(plains);
         //testpiece.transform.position = Vector3.zero;
+        Generate();
+        //SmoothTerrain();
+    }
+
+    public void Generate()
+    {
         GenerateIsland();
         FillOcean();
         GenerateElevation();
@@ -38,6 +44,59 @@ public class TerrainGenerator : MonoBehaviour
         FillCoast();
         Elevate();
     }
+
+    //void SmoothTerrain()
+    //{
+    //    for (int i = 1; i < xSize - 1; i++)
+    //    {
+    //        for (int j = 1; j < zSize - 1; j++)
+    //        {
+    //            List<Vector3> verts0 = new List<Vector3>();
+    //            for (int k = 0; k < tileArray[i, j].GetComponent<MeshFilter>().mesh.vertices.Length; k++)
+    //            {
+    //                verts0.Add(tileArray[i, j].GetComponent<MeshFilter>().mesh.vertices[k]);
+    //            }
+    //            Vector3[] vertsu = {tileArray[i, j + 1].transform.TransformPoint(tileArray[i, j + 1].GetComponent<MeshFilter>().mesh.vertices[3]),
+    //                                tileArray[i, j + 1].transform.TransformPoint(tileArray[i, j + 1].GetComponent<MeshFilter>().mesh.vertices[4]),
+    //                                tileArray[i, j + 1].transform.TransformPoint(tileArray[i, j + 1].GetComponent<MeshFilter>().mesh.vertices[5]),
+    //                                tileArray[i, j + 1].transform.TransformPoint(tileArray[i, j + 1].GetComponent<MeshFilter>().mesh.vertices[7]) };
+    //            Vector3[] vertsd = {tileArray[i, j - 1].transform.TransformPoint(tileArray[i, j - 1].GetComponent<MeshFilter>().mesh.vertices[3]),
+    //                                tileArray[i, j - 1].transform.TransformPoint(tileArray[i, j - 1].GetComponent<MeshFilter>().mesh.vertices[4]),
+    //                                tileArray[i, j - 1].transform.TransformPoint(tileArray[i, j - 1].GetComponent<MeshFilter>().mesh.vertices[5]),
+    //                                tileArray[i, j - 1].transform.TransformPoint(tileArray[i, j - 1].GetComponent<MeshFilter>().mesh.vertices[7]) };
+    //            verts0[3] = tileArray[i, j].transform.InverseTransformPoint(vertsu[2]);
+    //            verts0[4] = tileArray[i, j].transform.InverseTransformPoint(vertsu[3]);
+    //            verts0[5] = tileArray[i, j].transform.InverseTransformPoint(vertsd[0]);
+    //            verts0[7] = tileArray[i, j].transform.InverseTransformPoint(vertsd[1]);
+    //            tileArray[i, j].GetComponent<MeshFilter>().mesh.SetVertices(verts0);
+    //            tileArray[i, j].GetComponent<MeshFilter>().mesh.RecalculateNormals();
+    //        }
+    //    }
+    //    for (int i = 1; i < xSize - 1; i++)
+    //    {
+    //        for (int j = 1; j < zSize - 1; j++)
+    //        {
+    //            List<Vector3> verts0 = new List<Vector3>();
+    //            for (int k = 0; k < tileArray[i, j].GetComponent<MeshFilter>().mesh.vertices.Length; k++)
+    //            {
+    //                verts0.Add(tileArray[i, j].GetComponent<MeshFilter>().mesh.vertices[k]);
+    //            }
+    //            Vector3[] vertsr = {tileArray[i + 1, j].transform.TransformPoint(tileArray[i + 1, j].GetComponent<MeshFilter>().mesh.vertices[3]),
+    //                                tileArray[i + 1, j].transform.TransformPoint(tileArray[i + 1, j].GetComponent<MeshFilter>().mesh.vertices[4]),
+    //                                tileArray[i + 1, j].transform.TransformPoint(tileArray[i + 1, j].GetComponent<MeshFilter>().mesh.vertices[5]),
+    //                                tileArray[i + 1, j].transform.TransformPoint(tileArray[i + 1, j].GetComponent<MeshFilter>().mesh.vertices[7]) };
+    //            Vector3[] vertsl = {tileArray[i - 1, j].transform.TransformPoint(tileArray[i - 1, j].GetComponent<MeshFilter>().mesh.vertices[3]),
+    //                                tileArray[i - 1, j].transform.TransformPoint(tileArray[i - 1, j].GetComponent<MeshFilter>().mesh.vertices[4]),
+    //                                tileArray[i - 1, j].transform.TransformPoint(tileArray[i - 1, j].GetComponent<MeshFilter>().mesh.vertices[5]),
+    //                                tileArray[i - 1, j].transform.TransformPoint(tileArray[i - 1, j].GetComponent<MeshFilter>().mesh.vertices[7]) };
+    //            verts0[3] = tileArray[i, j].transform.InverseTransformPoint(vertsl[1]);
+    //            verts0[4] = tileArray[i, j].transform.InverseTransformPoint(vertsr[0]);
+    //            verts0[5] = tileArray[i, j].transform.InverseTransformPoint(vertsl[3]);
+    //            verts0[7] = tileArray[i, j].transform.InverseTransformPoint(vertsr[2]);
+    //            tileArray[i, j].GetComponent<MeshFilter>().mesh.RecalculateNormals();
+    //        }
+    //    }
+    //}
 
     //generates biomes based on elevation
     void GenerateBiomes()

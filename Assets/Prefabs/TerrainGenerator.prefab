@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6763949205995791412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6763949205995791413}
+  - component: {fileID: 6763949205995791414}
+  m_Layer: 0
+  m_Name: TerrainGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6763949205995791413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6763949205995791412}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.8246303, y: 0.019460917, z: 3.541902}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6763949205995791414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6763949205995791412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 850e6cca9a13d134ab8f933101645727, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grass: {fileID: 8440359831726750797, guid: 6917303a77bcd8a4ea612aef15a21b80, type: 3}
+  plains: {fileID: 226468135250270006, guid: 9bcf77d4d9d4bd44fb86bf610bea0f31, type: 3}
+  forest: {fileID: 7325087588032872919, guid: e52e5b11d789b4e4b81ac68f2ff23225, type: 3}
+  coast: {fileID: 4779182087620148859, guid: f831b19fc8a5c5547b8574f6c3757b94, type: 3}
+  water: {fileID: 1387106867623452237, guid: afdb334ae89e6094d93b1a307bcde18b, type: 3}
+  mountain: {fileID: 676116180747501082, guid: e171f5b3295d31344a1f09d63e1f06d4, type: 3}
+  randomSeed: 152
+  xSize: 50
+  zSize: 50
+  landchance: 0.35

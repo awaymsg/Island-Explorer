@@ -7,6 +7,20 @@ public abstract class ATile : MonoBehaviour
     public float elevation;
     public int foodAmt;
     public bool hasEvent;
+    public bool explored;
+    public bool ismovable;
+    [SerializeField]
+    private GameObject moveablemaskref;
+    private GameObject moveablemask;
+
+    void Awake()
+    {
+        explored = false;
+        if (this is WaterScript)
+        {
+            ismovable = false;
+        }
+    }
 
     public void OnMouseDown()
     {
@@ -15,5 +29,18 @@ public abstract class ATile : MonoBehaviour
         {
             Debug.Log(transform.TransformPoint(GetComponent<MeshFilter>().mesh.vertices[i]));
         }
+    }
+
+    public void WithinRange()
+    {
+        moveablemask = Instantiate(moveablemaskref);
+        Vector3 pos = transform.position;
+        pos.y += 1.5001f;
+        moveablemask.transform.position = pos;
+    }
+
+    public void ResetColor()
+    {
+        Destroy(moveablemask);
     }
 }

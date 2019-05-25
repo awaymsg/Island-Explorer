@@ -40,10 +40,25 @@ public class MarchingCubesGenerator : MonoBehaviour, IGenerator
     public void Generate()
     {
         GenerateNoise();
-        NoiseToGrid();
-        LerpNoiseGrid();
+        SphereNoise();
+        //NoiseToGrid();
+        //LerpNoiseGrid();
         MarchCube();
         DrawTerrain();
+    }
+
+    void SphereNoise()
+    {
+        for (int x = 0; x < xSize; x++)
+        {
+            for (int y = 0; y < ySize; y++)
+            {
+                for (int z = 0; z < zSize; z++)
+                {
+                    noiseGrid[x, y, z] = 5 - Mathf.Sqrt(x * x + y * y + z * z);
+                }
+            }
+        }
     }
 
     void DrawTerrain()
@@ -62,18 +77,15 @@ public class MarchingCubesGenerator : MonoBehaviour, IGenerator
             {
                 for (int z = 0; z < zSize - 1; z++)
                 {
-                    int tableIndex = 0;
-                    Vector3[] vertlist = new Vector3[12];
-
                     //assign cube values
-                    cube.p[0] = new Vector3(x - 1, y, z);
-                    cube.p[1] = new Vector3(x - 1, y, z + 1);
-                    cube.p[2] = new Vector3(x, y, z + 1);
-                    cube.p[3] = new Vector3(x, y, z);
-                    cube.p[4] = new Vector3(x - 1, y + 1, z);
-                    cube.p[5] = new Vector3(x - 1, y + 1, z + 1);
-                    cube.p[6] = new Vector3(x, y + 1, z + 1);
-                    cube.p[7] = new Vector3(x, y + 1, z);
+                    cube.p[0] = new Vector3(x, y, z);
+                    cube.p[1] = new Vector3(x + 1, y, z);
+                    cube.p[2] = new Vector3(x + 1, y, z + 1);
+                    cube.p[3] = new Vector3(x, y, z + 1);
+                    cube.p[4] = new Vector3(x, y + 1, z);
+                    cube.p[5] = new Vector3(x + 1, y + 1, z);
+                    cube.p[6] = new Vector3(x + 1, y + 1, z + 1);
+                    cube.p[7] = new Vector3(x, y + 1, z + 1);
 
                     cube.val[0] = noiseGrid[x, y, z];
                     cube.val[1] = noiseGrid[x + 1, y, z];
@@ -84,94 +96,123 @@ public class MarchingCubesGenerator : MonoBehaviour, IGenerator
                     cube.val[6] = noiseGrid[x + 1, y + 1, z + 1];
                     cube.val[7] = noiseGrid[x, y + 1, z + 1];
 
-                    //get tableIndex
-                    for (int i = 0; i < 8; i++)
-                    {
-                        if (cube.val[i] < isoLevel)
-                        {
-                            tableIndex |= 1 << i;
-                        }
-                    }
-                    //Debug.Log(tableIndex);
 
-                    //vertices
-                    if (edgeTable[tableIndex] == 0)
-                    {
-                        break;
-                    }
-                    if ((edgeTable[tableIndex] & (1 << 0)) != 0)
-                    {
-                        //vertlist[0] =
-                        verts.Add(VertexInterp(isoLevel, cube.p[0], cube.p[1], cube.val[0], cube.val[1])); //+ new Vector3(x, y, z));
-                    }
-                    if ((edgeTable[tableIndex] & (1 << 1)) != 0)
-                    {
-                        //vertlist[1] =
-                        verts.Add(VertexInterp(isoLevel, cube.p[1], cube.p[2], cube.val[1], cube.val[2])); //+ new Vector3(x, y, z));
-                    }
-                    if ((edgeTable[tableIndex] & (1 << 2)) != 0)
-                    {
-                        //vertlist[2] =
-                        verts.Add(VertexInterp(isoLevel, cube.p[2], cube.p[3], cube.val[2], cube.val[3])); //+ new Vector3(x, y, z));
-                    }
-                    if ((edgeTable[tableIndex] & (1 << 3)) != 0)
-                    {
-                        //vertlist[3] =
-                        verts.Add(VertexInterp(isoLevel, cube.p[3], cube.p[0], cube.val[3], cube.val[0])); //+ new Vector3(x, y, z));
-                    }
-                    if ((edgeTable[tableIndex] & (1 << 4)) != 0)
-                    {
-                        //vertlist[4] =
-                        verts.Add(VertexInterp(isoLevel, cube.p[4], cube.p[5], cube.val[4], cube.val[5])); //+ new Vector3(x, y, z));
-                    }
-                    if ((edgeTable[tableIndex] & (1 << 5)) != 0)
-                    {
-                        //vertlist[5] =
-                        verts.Add(VertexInterp(isoLevel, cube.p[5], cube.p[6], cube.val[5], cube.val[6])); //+ new Vector3(x, y, z));
-                    }
-                    if ((edgeTable[tableIndex] & (1 << 6)) != 0)
-                    {
-                        //vertlist[6] =
-                        verts.Add(VertexInterp(isoLevel, cube.p[6], cube.p[7], cube.val[6], cube.val[7])); //+ new Vector3(x, y, z));
-                    }
-                    if ((edgeTable[tableIndex] & (1 << 7)) != 0)
-                    {
-                        //vertlist[7] =
-                        verts.Add(VertexInterp(isoLevel, cube.p[7], cube.p[4], cube.val[7], cube.val[4])); // + new Vector3(x, y, z));
-                    }
-                    if ((edgeTable[tableIndex] & (1 << 8)) != 0)
-                    {
-                        //vertlist[8] =
-                        verts.Add(VertexInterp(isoLevel, cube.p[0], cube.p[4], cube.val[0], cube.val[4])); //+ new Vector3(x, y, z));
-                    }
-                    if ((edgeTable[tableIndex] & (1 << 9)) != 0)
-                    {
-                        //vertlist[9] =
-                        verts.Add(VertexInterp(isoLevel, cube.p[1], cube.p[5], cube.val[1], cube.val[5])); //+ new Vector3(x, y, z));
-                    }
-                    if ((edgeTable[tableIndex] & (1 << 10)) != 0)
-                    {
-                        //vertlist[10] =
-                        verts.Add(VertexInterp(isoLevel, cube.p[2], cube.p[6], cube.val[2], cube.val[6])); //+ new Vector3(x, y, z));
-                    }
-                    if ((edgeTable[tableIndex] & (1 << 11)) != 0)
-                    {
-                        //vertlist[11] =
-                        verts.Add(VertexInterp(isoLevel, cube.p[3], cube.p[7], cube.val[3], cube.val[7])); //+ new Vector3(x, y, z));
-                    }
-
-                    //triangles
-                    for (int i = 0; triTable[tableIndex, i] != -1; i += 3)
-                    {
-                        trianglesList.Add(triTable[tableIndex, i]);
-                        trianglesList.Add(triTable[tableIndex, i + 1]);
-                        trianglesList.Add(triTable[tableIndex, i + 2]);
-                    }
-                    //Debug.Log(verts.Count);
                 }
             }
         }
     }
+
+    //int[] March(Cube cube)
+    //{
+
+    //    int tableIndex = 0;
+    //    Vector3[] vertlist = new Vector3[12];
+
+    //    int poscount = 0;
+    //    int negcount = 0;
+    //    for (int i = 0; i < 8; i++)
+    //    {
+    //        if (cube.val[i] < 0)
+    //        {
+    //            negcount++;
+    //        }
+    //        else if (cube.val[i] > 0)
+    //        {
+    //            poscount++;
+    //        }
+    //    }
+
+    //    if (negcount == 8 || poscount == 8)
+    //    {
+    //        return null;
+    //    }
+
+    //    //get tableIndex
+    //    for (int i = 0; i < 8; i++)
+    //    {
+    //        if (cube.val[i] < isoLevel)
+    //        {
+    //            tableIndex |= 1 << i;
+    //        }
+    //    }
+    //    //Debug.Log(tableIndex);
+
+    //    //vertices
+    //    if (edgeTable[tableIndex] == 0)
+    //    {
+    //        return null;
+    //    }
+    //    if ((edgeTable[tableIndex] & (1 << 0)) != 0)
+    //    {
+    //        //vertlist[0] =
+    //        verts.Add(VertexInterp(isoLevel, cube.p[0], cube.p[1], cube.val[0], cube.val[1])); //+ new Vector3(x, y, z));
+    //    }
+    //    if ((edgeTable[tableIndex] & (1 << 1)) != 0)
+    //    {
+    //        //vertlist[1] =
+    //        verts.Add(VertexInterp(isoLevel, cube.p[1], cube.p[2], cube.val[1], cube.val[2])); //+ new Vector3(x, y, z));
+    //    }
+    //    if ((edgeTable[tableIndex] & (1 << 2)) != 0)
+    //    {
+    //        //vertlist[2] =
+    //        verts.Add(VertexInterp(isoLevel, cube.p[2], cube.p[3], cube.val[2], cube.val[3])); //+ new Vector3(x, y, z));
+    //    }
+    //    if ((edgeTable[tableIndex] & (1 << 3)) != 0)
+    //    {
+    //        //vertlist[3] =
+    //        verts.Add(VertexInterp(isoLevel, cube.p[3], cube.p[0], cube.val[3], cube.val[0])); //+ new Vector3(x, y, z));
+    //    }
+    //    if ((edgeTable[tableIndex] & (1 << 4)) != 0)
+    //    {
+    //        //vertlist[4] =
+    //        verts.Add(VertexInterp(isoLevel, cube.p[4], cube.p[5], cube.val[4], cube.val[5])); //+ new Vector3(x, y, z));
+    //    }
+    //    if ((edgeTable[tableIndex] & (1 << 5)) != 0)
+    //    {
+    //        //vertlist[5] =
+    //        verts.Add(VertexInterp(isoLevel, cube.p[5], cube.p[6], cube.val[5], cube.val[6])); //+ new Vector3(x, y, z));
+    //    }
+    //    if ((edgeTable[tableIndex] & (1 << 6)) != 0)
+    //    {
+    //        //vertlist[6] =
+    //        verts.Add(VertexInterp(isoLevel, cube.p[6], cube.p[7], cube.val[6], cube.val[7])); //+ new Vector3(x, y, z));
+    //    }
+    //    if ((edgeTable[tableIndex] & (1 << 7)) != 0)
+    //    {
+    //        //vertlist[7] =
+    //        verts.Add(VertexInterp(isoLevel, cube.p[7], cube.p[4], cube.val[7], cube.val[4])); // + new Vector3(x, y, z));
+    //    }
+    //    if ((edgeTable[tableIndex] & (1 << 8)) != 0)
+    //    {
+    //        //vertlist[8] =
+    //        verts.Add(VertexInterp(isoLevel, cube.p[0], cube.p[4], cube.val[0], cube.val[4])); //+ new Vector3(x, y, z));
+    //    }
+    //    if ((edgeTable[tableIndex] & (1 << 9)) != 0)
+    //    {
+    //        //vertlist[9] =
+    //        verts.Add(VertexInterp(isoLevel, cube.p[1], cube.p[5], cube.val[1], cube.val[5])); //+ new Vector3(x, y, z));
+    //    }
+    //    if ((edgeTable[tableIndex] & (1 << 10)) != 0)
+    //    {
+    //        //vertlist[10] =
+    //        verts.Add(VertexInterp(isoLevel, cube.p[2], cube.p[6], cube.val[2], cube.val[6])); //+ new Vector3(x, y, z));
+    //    }
+    //    if ((edgeTable[tableIndex] & (1 << 11)) != 0)
+    //    {
+    //        //vertlist[11] =
+    //        verts.Add(VertexInterp(isoLevel, cube.p[3], cube.p[7], cube.val[3], cube.val[7])); //+ new Vector3(x, y, z));
+    //    }
+
+    //    //triangles
+    //    for (int i = 0; triTable[tableIndex, i] != -1; i += 3)
+    //    {
+    //        trianglesList.Add(triTable[tableIndex, i]);
+    //        trianglesList.Add(triTable[tableIndex, i + 1]);
+    //        trianglesList.Add(triTable[tableIndex, i + 2]);
+    //    }
+    //    //Debug.Log(verts.Count);
+
+    //}
 
     Vector3 VertexInterp(float isolev, Vector3 p1, Vector3 p2, float v1, float v2)
     {

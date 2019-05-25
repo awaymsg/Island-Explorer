@@ -4,32 +4,39 @@ using UnityEngine;
 
 public class TerrainGenerator : MonoBehaviour, IGenerator
 {
-    public GameObject grass;
-    public GameObject plains;
-    public GameObject forest;
-    public GameObject coast;
-    public GameObject water;
-    public GameObject mountain;
-    public int randomSeed;
+    [SerializeField]
+    private GameObject grass;
+    [SerializeField]
+    private GameObject plains;
+    [SerializeField]
+    private GameObject forest;
+    [SerializeField]
+    private GameObject coast;
+    [SerializeField]
+    private GameObject water;
+    [SerializeField]
+    private GameObject mountain;
+    [SerializeField]
+    private GameObject grid;
     public GameObject[,] tileArray;
 
     //map size
-    public int xSize;
-    public int zSize;
+    [SerializeField]
+    private int xSize;
+    [SerializeField]
+    private int zSize;
 
     //land chance inverted
-    public float landchance;
+    [SerializeField]
+    private float landchance;
 
     //[HideInInspector] public List<List<GameObject>> waterbodies;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        Random.seed = randomSeed;
         tileArray = new GameObject[zSize, xSize];
         //GameObject testpiece = Instantiate(plains);
         //testpiece.transform.position = Vector3.zero;
-        Generate();
         //SmoothTerrain();
     }
 
@@ -43,6 +50,33 @@ public class TerrainGenerator : MonoBehaviour, IGenerator
         LevelWater();
         FillCoast();
         Elevate();
+        SetParent();
+    }
+
+    public GameObject[,] GetTileArray()
+    {
+        return tileArray;
+    }
+
+    public int GetXSize()
+    {
+        return xSize;
+    }
+
+    public int GetZSize()
+    {
+        return zSize;
+    }
+
+    void SetParent()
+    {
+        for (int i = 0; i < xSize; i++)
+        {
+            for (int j = 0; j < zSize; j++)
+            {
+                tileArray[i, j].transform.SetParent(grid.transform);
+            }
+        }
     }
 
     //void SmoothTerrain()
@@ -99,7 +133,7 @@ public class TerrainGenerator : MonoBehaviour, IGenerator
     //}
 
     //generates biomes based on elevation
-    void GenerateBiomes()
+    private void GenerateBiomes()
     {
         for (int i = 1; i < xSize - 1; i++)
         {
